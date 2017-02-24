@@ -1,0 +1,68 @@
+
+<html>
+<head>
+    <title>Show JSON</title>
+    <script language="JavaScript">
+        function loadJSON() {
+            var txt, x, i;
+            var http_request = new XMLHttpRequest();
+            http_request.onreadystatechange = function() {
+                if (http_request.readyState == 4 && http_request.status == 200) {
+                    txt = "<table border='1'><tr><th>Title</th><th>Publisher</th><th>Author</th><th>Cover</th><th>Blurb</th></tr>";
+                }
+                var jsonObj = JSON.parse(http_request.responseText);
+                var books = jsonObj.books;
+                for (i = 0; i < books.length; i++) {
+                    x = books[i];
+                    txt = txt + "<tr>"; {
+                        try {
+                            txt = txt + "<td>" + x.book.title + "</td>";
+                        } catch (er) {
+                            txt = txt + "<td> </td>";
+                        }
+                    } {
+                        try {
+                            txt = txt + "<td>" + x.book.publisher + "</td>";
+                        } catch (er) {
+                            txt = txt + "<td> </td>";
+                        }
+                    } {
+                        try {
+                            txt = txt + "<td>" + x.book.author + "</td>";
+                        } catch (er) {
+                            txt = txt + "<td> </td>";
+                        }
+                    } {
+                        try {
+                            txt = txt + "<td><img src=" + x.book.cover + " height='256'></td>";
+                        } catch (er) {
+                            txt = txt + "<td> </td>";
+                        }
+                    } {
+                        try {
+                            txt = txt + "<td>" + x.book.blurb + "</td>";
+                        } catch (er) {
+                            txt = txt + "<td> </td>";
+                        }
+                    }
+                    txt = txt + "</tr>";
+                }
+                txt = txt + "</table>";
+                document.getElementById('disp').innerHTML = txt;
+            }
+            http_request.open("GET", "http://angsila.cs.buu.ac.th/~wittawas/592/887371/labs/get_json.php", true);
+            http_request.send();
+        }
+    </script>
+</head>
+
+<body>
+    <div id="disp">
+        <h2>Get book info</h2>
+    </div>
+    <button onclick="loadJSON()">
+        GET
+    </button>
+</body>
+
+</html>
