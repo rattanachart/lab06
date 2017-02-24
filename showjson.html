@@ -1,70 +1,73 @@
+
 <html>
+
 <head>
-    <title>Show JSon</title>
     <script language="JavaScript">
-        function JSonFunction() {
-            var ajaxRequest;
-            var txt, x, bb, i;
-            ajaxRequest = new XMLHttpRequest();
-            ajaxRequest.onreadystatechange = function() {
-                if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200)
-                    txt = "<table border='1'><tr><th>Title</th><th>Publisher</th><th>Author</th><th>Cover</th><th>Blurb</th></tr>"
-                x = ajaxRequest.responseXML.documentElement.getElementsByTagName("book");
-                for (i = 0; i < x.length; i++) {
-                    txt = txt + "<tr>";
-                    bb = x[i].getElementsByTagName("title"); {
-                        try {
-                            txt = txt + "<td>" + bb[0].firstChild.nodeValue + "</td>";
-                        } catch (er) {
-                            txt = txt + "<td> </td>";
-                        }
-                    }
-                    bb = x[i].getElementsByTagName("publisher"); {
-                        try {
-                            txt = txt + "<td>" + bb[0].firstChild.nodeValue + "</td>";
-                        } catch (er) {
-                            txt = txt + "<td> </td>";
-                        }
-                    }
-                    bb = x[i].getElementsByTagName("author"); {
-                        try {
-                            txt = txt + "<td>" + bb[0].firstChild.nodeValue + "</td>";
-                        } catch (er) {
-                            txt = txt + "<td> </td>";
-                        }
-                    }
-                    bb = x[i].getElementsByTagName("cover"); {
-                        try {
-                            txt = txt + "<td><img src=" + bb[0].getAttribute("src") + " height='256'></td>";
-                        } catch (er) {
-                            txt = txt + "<td> </td>";
-                        }
-                    }
-                    bb = x[i].getElementsByTagName("blurb"); {
-                        try {
-                            txt = txt + "<td>" + bb[0].firstChild.nodeValue + "</td>";
-                        } catch (er) {
-                            txt = txt + "<td> </td>";
-                        }
-                    }
-                    txt = txt + "</tr>";
-                }
-                txt = txt + "</table>";
-                document.getElementById('displ').innerHTML = txt;
+        function loadXMLDoc() {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {
+                //code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                //code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
-            ajaxRequest.open("GET", "http://angsila.cs.buu.ac.th/~wittawas/592/887371/labs/get_xml.php", true);
-            ajaxRequest.send(null);
+
+            xmlhttp.onreadystatechange = function () {
+                
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                    var book = JSON.parse(xmlhttp.responseText);
+                    var book = book.books;
+                    txt = "";
+
+                    for (i = 0; i < book.length; i++) {
+                    var x = book[i];
+                    {
+                        try {
+                            txt = txt + "<p><font style=font-size:19px;><b>" + x.book.title + "</b></font></p>";
+                        } catch (er) {
+                            txt = txt + "<p></p>";
+                        }
+                    } {
+                        try {
+                            txt = txt + "<p>By " + x.book.author + ", " + x.book.publisher + "</p>";
+                        } catch (er) {
+                            txt = txt + "<p></p>";
+                        }
+                    } {
+                        try {
+                            txt = txt + "<p><img src=" + x.book.cover + " height='256'></p>";
+                        } catch (er) {
+                            txt = txt + "<p></p>";
+                        }
+                    } {
+                        try {
+                            txt = txt + "<p>" + x.book.blurb + "</p>";
+                        } catch (er) {
+                            txt = txt + "<p></p>";
+                        }
+                    }
+                }
+                document.getElementById('myDiv').innerHTML = txt;
+                }
+            }
+
+            xmlhttp.open("GET", "http://angsila.cs.buu.ac.th/~wittawas/592/887371/labs/get_json.php", true);
+            xmlhttp.send();
         }
     </script>
 </head>
 
 <body>
-    <div id="displ">
-        <h2>Get book info</h2>
+    <div id="myDiv">
+        <center><h2 >
+            Book
+        </h2>
+        <button type="button" class="submit" onclick="loadXMLDoc()">
+            GET
+    </button></center>
     </div>
-    <button onclick="JSonFunction()">
-        Get
-    </button>
 </body>
 
 </html>
