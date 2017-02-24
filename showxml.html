@@ -10,36 +10,38 @@
                 //code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
-
             xmlhttp.onreadystatechange = function () {
-                
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    var book = xmlhttp.responseXML.documentElement.getElementsByTagName("books");
+                    var book = xmlhttp.responseXML.documentElement.getElementsByTagName("book");
                     txt = "";
 
                     for (i = 0; i < book.length; i++) {
-                    var x = book[i];
-                    {
+                    var x = book[i].getElementByTagName("title"); {
                         try {
-                            txt = txt + "<p><font style=font-size:19px;><b>" + x.book.title + "</b></font></p>";
+                            txt = txt + "<p><font style=font-size:19px;><b>" + x[0].firstChild.nodeValue + "</b></font></p>";
                         } catch (er) {
                             txt = txt + "<p></p>";
                         }
-                    } {
+                    }
+                     var x = book[i].getElementByTagName("publisher"); {
+                        
                         try {
-                            txt = txt + "<p>By " + x.book.author + ", " + x.book.publisher + "</p>";
+                            txt = txt + "<p>By " +  x[0].firstChild.nodeValue + "</p>";
                         } catch (er) {
                             txt = txt + "<p></p>";
                         }
-                    } {
+                    } 
+                     var x = book[i].getElementByTagName("cover"); {
+                       
                         try {
-                            txt = txt + "<p><img src=" + x.book.cover + " height='256'></p>";
+                            txt = txt + "<p><img src=" + x[0].firstChild.nodeValue + " height='256'></p>";
                         } catch (er) {
                             txt = txt + "<p></p>";
                         }
-                    } {
+                    }
+                    var x = book[i].getElementByTagName("blurb"); {
                         try {
-                            txt = txt + "<p>" + x.book.blurb + "</p>";
+                            txt = txt + "<p>" + x[0].firstChild.nodeValue + "</p>";
                         } catch (er) {
                             txt = txt + "<p></p>";
                         }
@@ -50,7 +52,7 @@
             }
 
             xmlhttp.open("GET", "http://angsila.cs.buu.ac.th/~wittawas/592/887371/labs/get_xml.php", true);
-            xmlhttp.send();
+            xmlhttp.send(null);
         }
     </script>
 </head>
