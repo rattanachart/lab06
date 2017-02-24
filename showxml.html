@@ -48,7 +48,7 @@
                     txt = txt + "</tr>";
                 }
                 txt = txt + "</table>";
-                document.getElementById('disp').innerHTML = txt;
+                document.getElementById('displ').innerHTML = txt;
             }
             http_request.open("GET", "http://angsila.cs.buu.ac.th/~wittawas/592/887371/labs/get_json.php", true);
             http_request.send();
@@ -57,7 +57,7 @@
 </head>
 
 <body>
-    <div id="disp">
+    <div id="displ">
         <h2>Get book info</h2>
     </div>
     <button onclick="loadJSON()">
